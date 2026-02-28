@@ -1,3 +1,4 @@
+# PIのリクエスト・レスポンスの形を定義
 # app/schemas/script.py
 from pydantic import BaseModel
 # --- Script（セリフ）---
