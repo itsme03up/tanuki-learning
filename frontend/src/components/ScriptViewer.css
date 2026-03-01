@@ -1,118 +1,221 @@
 /* src/components/ScriptViewer.css */
 
-.chat-container {
-  max-width: 480px;
-  margin: 0 auto;
-  background: #f5f0e8;
-  min-height: 100vh;
+/* 全画面レイアウト */
+.chat-wrapper {
   display: flex;
-  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+  background: #1a1a2e;
+  padding: 20px;
 }
 
+.chat-container {
+  width: 100%;
+  max-width: 640px;
+  min-height: 100vh;
+  background: #f5f0e8;
+  display: flex;
+  flex-direction: column;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+/* ヘッダー */
 .chat-header {
-  background: #8b7355;
-  color: white;
-  padding: 12px 16px;
-  text-align: center;
-  font-size: 16px;
+  background: #3d5a3e;
+  color: #f5f0e8;
+  padding: 14px 20px;
+  font-size: 15px;
   font-weight: bold;
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
 
 .chat-progress {
+  background: #2d4a2e;
+  color: #a8c5a0;
   text-align: center;
   font-size: 12px;
-  color: #999;
   padding: 4px;
-  background: #e8e0d0;
 }
 
+/* メッセージエリア */
 .chat-messages {
   flex: 1;
-  padding: 16px;
+  padding: 20px 16px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 16px;
 }
 
-/* 先生（左側） */
+/* 先生（左） */
 .message-left {
   display: flex;
-  align-items: flex-end;
+  align-items: flex-start;
   gap: 8px;
+  animation: fadeInLeft 0.4s ease both;
 }
 
 .avatar {
-  width: 40px;
-  height: 40px;
+  width: 42px;
+  height: 42px;
   border-radius: 50%;
-  background: #8b7355;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 20px;
+  font-size: 22px;
   flex-shrink: 0;
+  background: #3d5a3e;
 }
 
-.bubble-left {
-  background: white;
+.message-left .bubble {
+  background: #ffffff;
   border-radius: 4px 18px 18px 18px;
   padding: 10px 14px;
   max-width: 75%;
   font-size: 14px;
-  line-height: 1.8;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+  line-height: 2;
+  color: #333;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 
-/* ユイ（右側） */
+/* ユイ（右） */
 .message-right {
   display: flex;
-  align-items: flex-end;
+  align-items: flex-start;
   justify-content: flex-end;
   gap: 8px;
+  animation: fadeInRight 0.4s ease both;
 }
 
-.bubble-right {
+.message-right .bubble {
   background: #c8e6a0;
   border-radius: 18px 4px 18px 18px;
   padding: 10px 14px;
   max-width: 75%;
   font-size: 14px;
-  line-height: 1.8;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+  line-height: 2;
+  color: #333;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 
 .speaker-name {
   font-size: 11px;
   color: #666;
-  margin-bottom: 3px;
+  margin-bottom: 4px;
 }
 
-/* ナビゲーション */
-.chat-footer {
-  padding: 12px 16px;
-  background: #e8e0d0;
+.message-right .speaker-name {
+  text-align: right;
+}
+
+/* ルビのスタイル調整 */
+ruby {
+  ruby-align: center;
+}
+
+rt {
+  font-size: 0.5em;
+  color: #555;
+}
+
+/* スクロールトリガー */
+.scroll-trigger {
+  height: 40px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: center;
+}
+
+.loading-dots {
+  display: flex;
+  gap: 4px;
+}
+
+.loading-dots span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #999;
+  animation: bounce 1s infinite;
+}
+
+.loading-dots span:nth-child(2) { animation-delay: 0.2s; }
+.loading-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+/* 完了メッセージ */
+.chat-complete {
+  text-align: center;
+  padding: 20px;
+  color: #666;
+  font-size: 13px;
+}
+
+/* アニメーション */
+@keyframes fadeInLeft {
+  from { opacity: 0; transform: translateX(-16px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes fadeInRight {
+  from { opacity: 0; transform: translateX(16px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-4px); }
+}
+
+/* コントロールバー */
+.chat-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  background: #e8e0d0;
+  border-top: 1px solid #d0c8b8;
   gap: 8px;
 }
 
-.nav-button {
-  background: #8b7355;
-  color: white;
+.control-button {
   border: none;
-  border-radius: 24px;
-  padding: 10px 24px;
-  font-size: 14px;
+  border-radius: 20px;
+  padding: 8px 20px;
+  font-size: 13px;
   cursor: pointer;
+  font-weight: bold;
 }
 
-.nav-button:disabled {
-  background: #ccc;
+.pause-button {
+  background: #3d5a3e;
+  color: white;
+}
+
+.pause-button:disabled {
+  background: #aaa;
   cursor: not-allowed;
 }
 
-.nav-button-next {
-  background: #5a9e3a;
-  margin-left: auto;
+.speed-controls {
+  display: flex;
+  gap: 4px;
+}
+
+.speed-button {
+  border: 1px solid #aaa;
+  border-radius: 16px;
+  padding: 6px 12px;
+  font-size: 12px;
+  cursor: pointer;
+  background: white;
+  color: #555;
+}
+
+.speed-button.active {
+  background: #3d5a3e;
+  color: white;
+  border-color: #3d5a3e;
 }
