@@ -1,0 +1,123 @@
+/* src/pages/SkillTreePage.css */
+
+.skilltree-wrapper {
+  min-height: 100vh;
+  background: #0d1117;
+  padding: 40px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.skilltree-header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.skilltree-title {
+  font-size: 32px;
+  font-weight: 900;
+  color: #e8f5e9;
+  letter-spacing: -0.02em;
+}
+
+.skilltree-subtitle {
+  font-size: 13px;
+  color: #4caf50;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-top: 6px;
+}
+
+/* ノード全体の縦並びレイアウト */
+.skilltree-nodes {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+.skilltree-node-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ノード間の線 */
+.skilltree-line {
+  width: 2px;
+  height: 40px;
+  background: #2a2a3e;
+}
+
+.skilltree-line.unlocked {
+  background: linear-gradient(to bottom, #4caf50, #2196f3);
+  box-shadow: 0 0 8px rgba(76, 175, 80, 0.5);
+}
+
+/* 菱形ノード */
+.skilltree-node {
+  width: 160px;
+  height: 160px;
+  transform: rotate(45deg);
+  border: 2px solid #2a2a3e;
+  background: #161b22;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: not-allowed;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+/* 菱形の中身は逆回転 */
+.skilltree-node > * {
+  transform: rotate(-45deg);
+  text-align: center;
+}
+
+.skilltree-node.unlocked {
+  border-color: #2196f3;
+  background: #0d2137;
+  cursor: pointer;
+  box-shadow: 0 0 20px rgba(33, 150, 243, 0.3);
+}
+
+.skilltree-node.unlocked:hover {
+  border-color: #64b5f6;
+  transform: rotate(45deg) scale(1.05);
+  box-shadow: 0 0 30px rgba(33, 150, 243, 0.5);
+}
+
+.skilltree-node.completed {
+  border-color: #4caf50;
+  background: #0d2e0d;
+  cursor: pointer;
+  box-shadow: 0 0 20px rgba(76, 175, 80, 0.4);
+}
+
+.skilltree-node.locked {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.node-icon {
+  font-size: 28px;
+  margin-bottom: 6px;
+}
+
+.node-title {
+  font-size: 12px;
+  color: #e8f5e9;
+  font-weight: bold;
+  line-height: 1.4;
+  max-width: 100px;
+}
+
+.node-badge {
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  color: #4caf50;
+  margin-top: 4px;
+  font-weight: bold;
+}
