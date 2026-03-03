@@ -1,31 +1,65 @@
-# DBのテーブル定義
 # app/models/script.py
 from sqlalchemy import Column, Integer, String, Text, ForeignKey
 from sqlalchemy.orm import relationship
 from app.database import Base
 
+
+class Course(Base):
+    """コース（Linux・Pythonなど大きな括り）"""
+
+    __tablename__ = "courses"
+
+    id = Column(Integer, primary_key=True, index=True)
+    title = Column(String(100), nullable=False)  # コース名
+    description = Column(Text, nullable=True)  # コースの説明
+    icon = Column(String(10), nullable=True)  # 絵文字アイコン
+    order = Column(Integer, nullable=False, default=0)  # 表示順
+
+    chapters = relationship("Chapter", back_populates="course")
+
+
 class Chapter(Base):
-    """章（学習単元）を表すテーブル"""
+    """章（各コースの中のトピック）"""
     __tablename__ = "chapters"
 
     id = Column(Integer, primary_key=True, index=True)
-    title = Column(String(100), nullable=False)        # 章のタイトル
-    description = Column(Text, nullable=True)          # 章の説明
-    order = Column(Integer, nullable=False, default=0) # 表示順
+    course_id = Column(Integer, ForeignKey("courses.id"), nullable=False)
+    title = Column(String(100), nullable=False)
+    description = Column(Text, nullable=True)
+    order = Column(Integer, nullable=False, default=0)
 
-    # 章に紐づくセリフ一覧
+    course = relationship("Course", back_populates="chapters")
     scripts = relationship("Script", back_populates="chapter")
+    # このchapterが必要とする前提チャプター
+    dependencies = relationship(
+        "ChapterDependency",
+        foreign_keys="ChapterDependency.chapter_id",
+        back_populates="chapter",
+    )
+
+
+class ChapterDependency(Base):
+    """チャプター間の依存関係（前提条件）"""
+
+    __tablename__ = "chapter_dependencies"
+
+    id = Column(Integer, primary_key=True, index=True)
+    chapter_id = Column(Integer, ForeignKey("chapters.id"), nullable=False)
+    requires_chapter_id = Column(Integer, ForeignKey("chapters.id"), nullable=False)
+
+    chapter = relationship(
+        "Chapter", foreign_keys=[chapter_id], back_populates="dependencies"
+    )
 
 
 class Script(Base):
-    """狸塚先生と主人公の対話セリフを表すテーブル"""
+    """学習コンテンツ（テキスト）"""
     __tablename__ = "scripts"
 
     id = Column(Integer, primary_key=True, index=True)
     chapter_id = Column(Integer, ForeignKey("chapters.id"), nullable=False)
-    character = Column(String(20), nullable=False)     # "tanuki" or "student"
-    text = Column(Text, nullable=False)                # セリフ内容
-    order = Column(Integer, nullable=False, default=0) # 章内での表示順
+    character = Column(String(20), nullable=True)
+    text = Column(Text, nullable=False)
+    order = Column(Integer, nullable=False, default=0)
 
-    # 所属する章への参照
     chapter = relationship("Chapter", back_populates="scripts")

@@ -1,34 +1,54 @@
-# PIのリクエスト・レスポンスの形を定義
 # app/schemas/script.py
 from pydantic import BaseModel
-# --- Script（セリフ）---
+
+
+# --- Script ---
 
 class ScriptBase(BaseModel):
-    """セリフの基本項目"""
-    character: str  # "tanuki" or "student"
-    text: str       # セリフ内容
-    order: int      # 表示順
-
-class ScriptResponse(ScriptBase):
-    """APIレスポンス用（DBのidを含む）"""
-    id: int
-
-    class Config:
-        from_attributes = True  # SQLAlchemyモデルから変換を許可
-
-
-# --- Chapter（章）---
-
-class ChapterBase(BaseModel):
-    """章の基本項目"""
-    title: str
-    description: str | None = None  # 任意項目
+    text: str
     order: int
 
-class ChapterResponse(ChapterBase):
-    """APIレスポンス用（セリフ一覧を含む）"""
+
+class ScriptResponse(ScriptBase):
     id: int
+    chapter_id: int
+
+    class Config:
+        from_attributes = True
+
+
+# --- Chapter ---
+
+
+class ChapterBase(BaseModel):
+    title: str
+    description: str | None = None
+    order: int
+
+
+class ChapterResponse(ChapterBase):
+    id: int
+    course_id: int
     scripts: list[ScriptResponse] = []
+    dependency_ids: list[int] = []  # 前提チャプターのID一覧
+
+    class Config:
+        from_attributes = True
+
+
+# --- Course ---
+
+
+class CourseBase(BaseModel):
+    title: str
+    description: str | None = None
+    icon: str | None = None
+    order: int
+
+
+class CourseResponse(CourseBase):
+    id: int
+    chapters: list[ChapterResponse] = []
 
     class Config:
         from_attributes = True
