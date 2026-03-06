@@ -36,6 +36,8 @@ class Chapter(Base):
         foreign_keys="ChapterDependency.chapter_id",
         back_populates="chapter",
     )
+    quizzes = relationship("Quiz", back_populates="chapter")
+    terminals = relationship("Terminal", back_populates="chapter")
 
 
 class ChapterDependency(Base):
@@ -63,3 +65,48 @@ class Script(Base):
     order = Column(Integer, nullable=False, default=0)
 
     chapter = relationship("Chapter", back_populates="scripts")
+
+
+class Quiz(Base):
+    """クイズ問題"""
+
+    __tablename__ = "quizzes"
+
+    id = Column(Integer, primary_key=True, index=True)
+    chapter_id = Column(Integer, ForeignKey("chapters.id"), nullable=False)
+    question = Column(Text, nullable=False)  # 問題文
+    explanation = Column(Text, nullable=True)  # 解説文
+    order = Column(Integer, nullable=False, default=0)
+
+    chapter = relationship("Chapter", back_populates="quizzes")
+    choices = relationship("QuizChoice", back_populates="quiz")
+
+
+class QuizChoice(Base):
+    """クイズの選択肢"""
+
+    __tablename__ = "quiz_choices"
+
+    id = Column(Integer, primary_key=True, index=True)
+    quiz_id = Column(Integer, ForeignKey("quizzes.id"), nullable=False)
+    text = Column(Text, nullable=False)  # 選択肢テキスト
+    is_correct = Column(Integer, nullable=False, default=0)  # 1=正解
+
+    quiz = relationship("Quiz", back_populates="choices")
+
+
+class Terminal(Base):
+    """コマンド穴埋め問題"""
+
+    __tablename__ = "terminals"
+
+    id = Column(Integer, primary_key=True, index=True)
+    chapter_id = Column(Integer, ForeignKey("chapters.id"), nullable=False)
+    description = Column(Text, nullable=False)  # 問題の説明
+    command_template = Column(Text, nullable=False)  # 例: "chmod ___ file.txt"
+    answer = Column(Text, nullable=False)  # 正解コマンド
+    hint = Column(Text, nullable=True)  # ヒント
+    explanation = Column(Text, nullable=True)  # 解説
+    order = Column(Integer, nullable=False, default=0)
+
+    chapter = relationship("Chapter", back_populates="terminals")

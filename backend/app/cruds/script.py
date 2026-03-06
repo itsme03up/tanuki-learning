@@ -1,11 +1,40 @@
 # app/cruds/script.py
 from sqlalchemy.orm import Session
-from app.models.script import Course, Chapter, ChapterDependency, Script
+from app.models.script import (
+    Course,
+    Chapter,
+    ChapterDependency,
+    Script,
+    Quiz,
+    QuizChoice,
+    Terminal,
+)
 
 
-def get_all_courses(db: Session) -> list[Course]:
-    """全コースを表示順で取得する"""
-    return db.query(Course).order_by(Course.order).all()
+def get_quizzes_by_chapter(db: Session, chapter_id: int) -> list[Quiz]:
+    """指定したチャプターのクイズを取得する"""
+    return (
+        db.query(Quiz).filter(Quiz.chapter_id == chapter_id).order_by(Quiz.order).all()
+    )
+
+
+def get_quiz_choices_by_quiz(db: Session, quiz_id: int) -> list[QuizChoice]:
+    """指定したクイズの選択肢を取得する"""
+    return (
+        db.query(QuizChoice)
+        .filter(QuizChoice.quiz_id == quiz_id)
+        .order_by(QuizChoice.id)
+        .all()
+    )
+
+
+def get_terminals_by_chapter(db: Session, chapter_id: int) -> list[Terminal]:
+    return (
+        db.query(Terminal)
+        .filter(Terminal.chapter_id == chapter_id)
+        .order_by(Terminal.order)
+        .all()
+    )
 
 
 def get_course(db: Session, course_id: int) -> Course | None:
@@ -34,14 +63,15 @@ def get_chapter_dependencies(db: Session, chapter_id: int) -> list[int]:
 
 
 def create_course(
-    db: Session, title: str, description: str | None, icon: str | None, order: int
-) -> Course:
-    """コースを新規作成する"""
-    course = Course(title=title, description=description, icon=icon, order=order)
-    db.add(course)
+    db: Session, chapter_id: int, question: str, explanation: str | None, order: int
+) -> Quiz:
+    quiz = Quiz(
+        chapter_id=chapter_id, question=question, explanation=explanation, order=order
+    )
+    db.add(quiz)
     db.commit()
-    db.refresh(course)
-    return course
+    db.refresh(quiz)
+    return quiz
 
 
 def create_chapter(
@@ -59,6 +89,41 @@ def create_chapter(
     db.commit()
     db.refresh(chapter)
     return chapter
+
+
+def create_quiz_choice(
+    db: Session, quiz_id: int, text: str, is_correct: bool
+) -> QuizChoice:
+    choice = QuizChoice(quiz_id=quiz_id, text=text, is_correct=1 if is_correct else 0)
+    db.add(choice)
+    db.commit()
+    db.refresh(choice)
+    return choice
+
+
+def create_terminal(
+    db: Session,
+    chapter_id: int,
+    description: str,
+    command_template: str,
+    answer: str,
+    hint: str | None,
+    explanation: str | None,
+    order: int,
+) -> Terminal:
+    terminal = Terminal(
+        chapter_id=chapter_id,
+        description=description,
+        command_template=command_template,
+        answer=answer,
+        hint=hint,
+        explanation=explanation,
+        order=order,
+    )
+    db.add(terminal)
+    db.commit()
+    db.refresh(terminal)
+    return terminal
 
 
 def create_dependency(

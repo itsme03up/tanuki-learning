@@ -52,3 +52,43 @@ class CourseResponse(CourseBase):
 
     class Config:
         from_attributes = True
+
+# --- Quiz ---
+
+
+class QuizChoiceResponse(BaseModel):
+    id: int
+    text: str
+    is_correct: int
+
+    class Config:
+        from_attributes = True
+
+
+class QuizResponse(BaseModel):
+    id: int
+    chapter_id: int
+    question: str
+    explanation: str | None = None
+    order: int
+    choices: list[QuizChoiceResponse] = []
+
+    class Config:
+        from_attributes = True
+
+
+# --- Terminal ---
+
+
+class TerminalResponse(BaseModel):
+    id: int
+    chapter_id: int
+    description: str
+    command_template: str
+    answer: str
+    hint: str | None = None
+    explanation: str | None = None
+    order: int
+
+    class Config:
+        from_attributes = True
