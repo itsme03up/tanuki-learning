@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { useChapterContent } from '../hooks/useChapterContent'
 import { useProgress } from '../hooks/useProgress'
+import { useChapter } from '../hooks/useChapter'
 import type { Quiz, Terminal } from '../types/index'
 import './ChapterPage.css'
 
@@ -14,6 +15,7 @@ export const ChapterPage = () => {
   const chapterId = Number(id)
   const { quizzes, terminals, loading } = useChapterContent(chapterId)
   const { completeChapter } = useProgress()
+  const { course } = useChapter(chapterId)
 
   const [phase, setPhase] = useState<Phase>('quiz')
   const [quizIndex, setQuizIndex] = useState(0)
@@ -72,7 +74,8 @@ export const ChapterPage = () => {
 
   // 完了処理
   const handleComplete = () => {
-    completeChapter(chapterId)
+    const allChapterIds = course?.chapters.map(ch => ch.id)
+    completeChapter(chapterId, course?.id, allChapterIds)
     setPhase('complete')
   }
 
