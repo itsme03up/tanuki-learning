@@ -12,6 +12,7 @@ class Course(Base):
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String(100), nullable=False)  # コース名
     description = Column(Text, nullable=True)  # コースの説明
+    category = Column(String(50), nullable=True)  # カテゴリー（例: "Linux", "Python"）
     icon = Column(String(10), nullable=True)  # 絵文字アイコン
     order = Column(Integer, nullable=False, default=0)  # 表示順
 

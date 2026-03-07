@@ -68,10 +68,16 @@ def get_chapter_dependencies(db: Session, chapter_id: int) -> list[int]:
 
 
 def create_course(
-    db: Session, title: str, description: str | None, icon: str | None, order: int
+    db: Session,
+    title: str,
+    description: str | None,
+    icon: str | None,
+    order: int,
+    category: str | None = None,  # 追加
 ) -> Course:
-    """コースを新規作成する"""
-    course = Course(title=title, description=description, icon=icon, order=order)
+    course = Course(
+        title=title, description=description, icon=icon, order=order, category=category
+    )
     db.add(course)
     db.commit()
     db.refresh(course)

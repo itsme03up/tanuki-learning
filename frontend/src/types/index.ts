@@ -25,3 +25,29 @@ export type Course = {
   order: number
   chapters: Chapter[]
 }
+
+export type QuizChoice = {
+  id: number
+  text: string
+  is_correct: number
+}
+
+export type Quiz = {
+  id: number
+  chapter_id: number
+  question: string
+  explanation: string | null
+  order: number
+  choices: QuizChoice[]
+}
+
+export type Terminal = {
+  id: number
+  chapter_id: number
+  description: string
+  command_template: string
+  answer: string
+  hint: string | null
+  explanation: string | null
+  order: number
+}
