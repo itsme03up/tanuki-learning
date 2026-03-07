@@ -115,12 +115,14 @@ def create_quiz(
     question: str,
     explanation: str | None,
     order: int,
+    slug: str | None = None,
 ) -> Quiz:
     quiz = Quiz(
         chapter_id=chapter_id,
         question=question,
         explanation=explanation,
         order=order,
+        slug=slug,
     )
     db.add(quiz)
     db.commit()
@@ -149,6 +151,7 @@ def create_terminal(
     hint: str | None,
     explanation: str | None,
     order: int,
+    slug: str | None = None,
 ) -> Terminal:
     terminal = Terminal(
         chapter_id=chapter_id,
@@ -158,6 +161,7 @@ def create_terminal(
         hint=hint,
         explanation=explanation,
         order=order,
+        slug=slug,
     )
     db.add(terminal)
     db.commit()
@@ -196,6 +200,7 @@ def create_column(
     content: str,
     category: str | None,
     order: int,
+    slug: str | None = None,
 ):
     col = ColumnModel(
         chapter_id=chapter_id,
@@ -203,6 +208,7 @@ def create_column(
         content=content,
         category=category,
         order=order,
+        slug=slug,
     )
     db.add(col)
     db.commit()
@@ -225,3 +231,15 @@ def get_all_columns(db: Session):
         .order_by(ColumnModel.chapter_id, ColumnModel.order)
         .all()
     )
+
+
+def get_quiz_by_slug(db, slug):
+    return db.query(Quiz).filter_by(slug=slug).first()
+
+
+def get_terminal_by_slug(db, slug):
+    return db.query(Terminal).filter_by(slug=slug).first()
+
+
+def get_column_by_slug(db, slug):
+    return db.query(ColumnModel).filter_by(slug=slug).first()

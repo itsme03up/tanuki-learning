@@ -84,6 +84,7 @@ class Quiz(Base):
     question = Column(Text, nullable=False)  # 問題文
     explanation = Column(Text, nullable=True)  # 解説文
     order = Column(Integer, nullable=False, default=0)
+    slug = Column(String(64), unique=True, nullable=True)
 
     chapter = relationship("Chapter", back_populates="quizzes")
     choices = relationship("QuizChoice", back_populates="quiz")
@@ -115,6 +116,7 @@ class Terminal(Base):
     hint = Column(Text, nullable=True)  # ヒント
     explanation = Column(Text, nullable=True)  # 解説
     order = Column(Integer, nullable=False, default=0)
+    slug = Column(String(64), unique=True, nullable=True)
 
     chapter = relationship("Chapter", back_populates="terminals")
 
@@ -130,3 +132,4 @@ class Column(Base):
         String(50), nullable=True
     )  # 'history' / 'tips' / 'trivia'
     order = Column(Integer, default=0)
+    slug = Column(String(64), unique=True, nullable=True)

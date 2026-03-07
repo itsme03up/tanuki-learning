@@ -72,6 +72,7 @@ class QuizResponse(BaseModel):
     explanation: str | None = None
     order: int
     choices: list[QuizChoiceResponse] = []
+    slug: str | None = None
 
     class Config:
         from_attributes = True
@@ -87,6 +88,7 @@ class TerminalResponse(BaseModel):
     hint: str | None = None
     explanation: str | None = None
     order: int
+    slug: str | None = None
 
     class Config:
         from_attributes = True
@@ -99,5 +101,6 @@ class ColumnResponse(BaseModel):
     content: str
     category: str | None = None
     order: int
+    slug: str | None = None
 
     model_config = ConfigDict(from_attributes=True)
