@@ -12,7 +12,9 @@ class Course(Base):
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String(100), nullable=False)  # コース名
     description = Column(Text, nullable=True)  # コースの説明
-    category = Column(String(50), nullable=True)  # カテゴリー（例: "Linux", "Python"）
+    category = Column(
+        String(50), nullable=True
+    )  # カテゴリー（例: "Linux", "Python"）
     icon = Column(String(10), nullable=True)  # 絵文字アイコン
     order = Column(Integer, nullable=False, default=0)  # 表示順
 
@@ -49,7 +51,9 @@ class ChapterDependency(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     chapter_id = Column(Integer, ForeignKey("chapters.id"), nullable=False)
-    requires_chapter_id = Column(Integer, ForeignKey("chapters.id"), nullable=False)
+    requires_chapter_id = Column(
+        Integer, ForeignKey("chapters.id"), nullable=False
+    )
 
     chapter = relationship(
         "Chapter", foreign_keys=[chapter_id], back_populates="dependencies"
@@ -122,5 +126,7 @@ class Column(Base):
     chapter_id = Column(Integer, ForeignKey("chapters.id"), nullable=False)
     title = Column(String(200), nullable=False)
     content = Column(Text, nullable=False)
-    category = Column(String(50), nullable=True)  # 'history' / 'tips' / 'trivia'
+    category = Column(
+        String(50), nullable=True
+    )  # 'history' / 'tips' / 'trivia'
     order = Column(Integer, default=0)

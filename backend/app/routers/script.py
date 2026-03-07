@@ -48,24 +48,32 @@ def get_chapter(chapter_id: int, db: Session = Depends(get_db)):
     """指定したチャプターとスクリプトを取得する"""
     chapter = crud.get_chapter_with_scripts(db, chapter_id)
     if chapter is None:
-        raise HTTPException(status_code=404, detail="チャプターが見つかりません")
+        raise HTTPException(
+            status_code=404, detail="チャプターが見つかりません"
+        )
     chapter.dependency_ids = crud.get_chapter_dependencies(db, chapter_id)
     return chapter
 
 
-@router.get("/chapters/{chapter_id}/quizzes", response_model=list[QuizResponse])
+@router.get(
+    "/chapters/{chapter_id}/quizzes", response_model=list[QuizResponse]
+)
 def get_quizzes(chapter_id: int, db: Session = Depends(get_db)):
     """指定チャプターのクイズ一覧を取得する"""
     return crud.get_quizzes_by_chapter(db, chapter_id)
 
 
-@router.get("/chapters/{chapter_id}/terminals", response_model=list[TerminalResponse])
+@router.get(
+    "/chapters/{chapter_id}/terminals", response_model=list[TerminalResponse]
+)
 def get_terminals(chapter_id: int, db: Session = Depends(get_db)):
     """指定チャプターのターミナル問題一覧を取得する"""
     return crud.get_terminals_by_chapter(db, chapter_id)
 
 
-@router.get("/chapters/{chapter_id}/columns", response_model=list[ColumnResponse])
+@router.get(
+    "/chapters/{chapter_id}/columns", response_model=list[ColumnResponse]
+)
 def get_columns(chapter_id: int, db: Session = Depends(get_db)):
     return get_columns_by_chapter(db, chapter_id)
 

@@ -1,14 +1,14 @@
 #!/bin/zsh
 pyenv shell 3.11.8
 
-# Python lint
+# Python auto-format (line length 79)
 if [ -f backend/requirements.txt ]; then
+  echo "Running black for Python..."
+  BLACK_PATH=$(pyenv which black)
+  $BLACK_PATH backend/app --line-length 79 || exit 1
   echo "Running flake8 for Python..."
   FLAKE8_PATH=$(pyenv which flake8)
-  BLACK_PATH=$(pyenv which black)
   $FLAKE8_PATH backend/app || exit 1
-  echo "Running black for Python..."
-  $BLACK_PATH backend/app || exit 1
 fi
 
 # TypeScript auto-fix

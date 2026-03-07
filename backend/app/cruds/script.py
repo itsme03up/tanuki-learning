@@ -15,7 +15,10 @@ from app.models.script import Column as ColumnModel
 def get_quizzes_by_chapter(db: Session, chapter_id: int) -> list[Quiz]:
     """指定したチャプターのクイズを取得する"""
     return (
-        db.query(Quiz).filter(Quiz.chapter_id == chapter_id).order_by(Quiz.order).all()
+        db.query(Quiz)
+        .filter(Quiz.chapter_id == chapter_id)
+        .order_by(Quiz.order)
+        .all()
     )
 
 
@@ -128,7 +131,9 @@ def create_quiz(
 def create_quiz_choice(
     db: Session, quiz_id: int, text: str, is_correct: bool
 ) -> QuizChoice:
-    choice = QuizChoice(quiz_id=quiz_id, text=text, is_correct=1 if is_correct else 0)
+    choice = QuizChoice(
+        quiz_id=quiz_id, text=text, is_correct=1 if is_correct else 0
+    )
     db.add(choice)
     db.commit()
     db.refresh(choice)
@@ -173,7 +178,9 @@ def create_dependency(
     return dep
 
 
-def create_script(db: Session, chapter_id: int, text: str, order: int) -> Script:
+def create_script(
+    db: Session, chapter_id: int, text: str, order: int
+) -> Script:
     """スクリプトを新規作成する"""
     script = Script(chapter_id=chapter_id, text=text, order=order)
     db.add(script)
@@ -214,5 +221,7 @@ def get_columns_by_chapter(db: Session, chapter_id: int):
 
 def get_all_columns(db: Session):
     return (
-        db.query(ColumnModel).order_by(ColumnModel.chapter_id, ColumnModel.order).all()
+        db.query(ColumnModel)
+        .order_by(ColumnModel.chapter_id, ColumnModel.order)
+        .all()
     )
