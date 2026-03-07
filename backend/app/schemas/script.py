@@ -1,8 +1,8 @@
 # app/schemas/script.py
 from pydantic import BaseModel, ConfigDict
 
-
 # --- Script ---
+
 
 class ScriptBase(BaseModel):
     text: str
@@ -51,6 +51,7 @@ class CourseResponse(CourseBase):
 
     class Config:
         from_attributes = True
+
 
 # --- Quiz ---
 

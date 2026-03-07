@@ -16,7 +16,7 @@ DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./tanuki.db")
 # connect_args はSQLite使用時のみ必要な設定
 engine = create_engine(
     DATABASE_URL,
-    connect_args={"check_same_thread": False} if "sqlite" in DATABASE_URL else {},
+    connect_args=({"check_same_thread": False} if "sqlite" in DATABASE_URL else {}),
 )
 
 # セッションの作成（DBとのやり取りに使う）

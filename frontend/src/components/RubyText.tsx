@@ -40,3 +40,5 @@ export const RubyText = ({ text }: Props) => {
 
   return <span>{elements}</span>
 }
+
+const rubyRegex = /<ruby>(.*?)<rt>(.*?)<\/rt><\/ruby>/g

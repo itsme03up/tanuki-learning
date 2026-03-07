@@ -11,17 +11,7 @@ export const useChapter = (chapterId: number) => {
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    const fetchChapter = async () => {
-      try {
-        const response = await axios.get(`${API_URL}/api/chapters/${chapterId}`)
-        setChapter(response.data)
-      } catch (e) {
-        setError('データの取得に失敗しました')
-      } finally {
-        setLoading(false)
-      }
-    }
-    fetchChapter()
+    axios.get(`${API_URL}/api/chapters/${chapterId}`).then(res => setChapter(res.data))
   }, [chapterId])
 
   return { chapter, loading, error }

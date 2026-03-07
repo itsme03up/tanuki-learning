@@ -21,6 +21,7 @@ class Course(Base):
 
 class Chapter(Base):
     """章（各コースの中のトピック）"""
+
     __tablename__ = "chapters"
 
     id = Column(Integer, primary_key=True, index=True)
@@ -57,6 +58,7 @@ class ChapterDependency(Base):
 
 class Script(Base):
     """学習コンテンツ（テキスト）"""
+
     __tablename__ = "scripts"
 
     id = Column(Integer, primary_key=True, index=True)

@@ -17,7 +17,7 @@ export const useCourses = () => {
       try {
         const response = await axios.get(`${API_URL}/api/courses`)
         setCourses(response.data)
-      } catch (e) {
+      } catch {
         setError('データの取得に失敗しました')
       } finally {
         setLoading(false)

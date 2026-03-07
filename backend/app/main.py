@@ -23,6 +23,7 @@ app.add_middleware(
 # ルーターを登録
 app.include_router(script_router.router)
 
+
 # 動作確認用のルート
 @app.get("/")
 def read_root():

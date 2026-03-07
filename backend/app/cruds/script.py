@@ -77,7 +77,11 @@ def create_course(
     category: str | None = None,  # 追加
 ) -> Course:
     course = Course(
-        title=title, description=description, icon=icon, order=order, category=category
+        title=title,
+        description=description,
+        icon=icon,
+        order=order,
+        category=category,
     )
     db.add(course)
     db.commit()
@@ -103,10 +107,17 @@ def create_chapter(
 
 
 def create_quiz(
-    db: Session, chapter_id: int, question: str, explanation: str | None, order: int
+    db: Session,
+    chapter_id: int,
+    question: str,
+    explanation: str | None,
+    order: int,
 ) -> Quiz:
     quiz = Quiz(
-        chapter_id=chapter_id, question=question, explanation=explanation, order=order
+        chapter_id=chapter_id,
+        question=question,
+        explanation=explanation,
+        order=order,
     )
     db.add(quiz)
     db.commit()
