@@ -10,11 +10,16 @@ import { PilotNameModal } from './components/PilotNameModal'
 import { useProgress } from './hooks/useProgress'
 import { ColumnsPage } from './pages/ColumnsPage'
 import { ColumnDetailPage } from './pages/ColumnDetailPage'
+import { TutorialPage } from './pages/TutorialPage'
+
 
 function App() {
   const { progress, setPilotName } = useProgress()
   const [modalDismissed, setModalDismissed] = useState(false)
+  const [tutorialDismissed, setTutorialDismissed] = useState(false)
+
   const showModal = progress.pilotName === '' && !modalDismissed
+  const showTutorial = progress.pilotName !== '' && !progress.tutorialCompleted && !modalDismissed
 
 
   return (
@@ -26,6 +31,9 @@ function App() {
             setModalDismissed(true)
           }}
         />
+      )}
+      {showTutorial && (
+        <TutorialPage onComplete={() => setTutorialDismissed(true)} />
       )}
       <Layout>
         <Routes>

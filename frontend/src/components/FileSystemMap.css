@@ -1,0 +1,40 @@
+.fsmap-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.fsmap-svg {
+  width: 100%;
+  max-width: 340px;
+  height: auto;
+}
+
+.fsmap-current {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.fsmap-label {
+  font-size: 10px;
+  color: #1a8fb5;
+  letter-spacing: 0.2em;
+  font-family: 'Share Tech Mono', monospace;
+}
+
+.fsmap-path {
+  font-size: 18px;
+  color: #00e5ff;
+  font-family: 'Share Tech Mono', monospace;
+  text-shadow: 0 0 12px rgba(0,229,255,0.6);
+}
+
+.fsmap-svg {
+  width: 100%;
+  max-width: 340px;
+  max-height: 460px;
+  height: auto;
+}
